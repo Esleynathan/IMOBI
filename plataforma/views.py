@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from . models import Imovei,Cidade
+from . models import Imovei, Cidade
 
 @login_required(login_url='/auth/logar')
 def home(request):
@@ -27,3 +27,9 @@ def home(request):
         imoveis = Imovei.objects.all()
 
     return render(request, 'home.html', {'imoveis': imoveis, 'cidades': cidades})
+
+@login_required(login_url='/auth/logar')
+def imovel(request, id):
+    imovel = get_object_or_404(Imovei, id=id)
+    sugestoes = Imovei.objects.filter(cidade=imovel.cidade).exclude(id=id)[:2]
+    return render(request, 'imovel.html', {'imovel': imovel, 'sugestoes': sugestoes, 'id': id})

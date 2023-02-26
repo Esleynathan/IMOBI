@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 class Imagem(models.Model):
     img = models.ImageField(upload_to='img')
 
-def __str__(self) -> str:
-    return self.img.url
+    def __str__(self) -> str:
+        return self.img.url
 
 class Cidade(models.Model):
     nome = models.CharField(max_length=30)
