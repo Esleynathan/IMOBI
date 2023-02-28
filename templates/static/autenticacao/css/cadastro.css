@@ -72,6 +72,9 @@ background-image: url('/static/autenticacao/img/email.png');
 .input_cadastrar_senha{
 background-image: url('/static/autenticacao/img/senha.png');
 }
+.input_confirmar_senha{
+    background-image: url('/static/autenticacao/img/senha.png');
+}
 .btn_cadastrar{
 background-color: #3067cd;
 border: none;

@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import messages, auth
 from django.contrib.messages import constants
-
+from .utils import password_is_valid
 
 def cadastro(request):
     if request.method == "GET":
@@ -13,7 +13,8 @@ def cadastro(request):
     elif request.method == "POST":
         username = request.POST.get('username')
         email = request.POST.get('email')
-        senha = request.POST.get('senha')
+        senha = request.POST.get('senha')        
+        confirmar_senha = request.POST.get('confirmar_senha')
 
     if len(username.strip()) == 0 or len(email.strip()) == 0 or len(senha.strip()) == 0:
         messages.add_message(request, constants.ERROR, 'Preencha todos os campos')
@@ -24,6 +25,9 @@ def cadastro(request):
     if user.exists():
         messages.add_message(request, constants.ERROR, 'Já existe um usuário com esse nome cadastrado')
         return redirect('/auth/cadastro')
+    
+    if not password_is_valid(request, senha, confirmar_senha):
+            return redirect('/auth/cadastro')
 
     try:
         user = User.objects.create_user(username=username,
